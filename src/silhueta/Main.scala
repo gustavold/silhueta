@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 
-package Silhueta
+package silhueta
 
 object Main {
 
