@@ -14,6 +14,7 @@ object Main {
    */
   def main(args: Array[String]) :Unit = {
     println("Hello, world!")
+    ManipuladorDeArquivos.lerArquivoDeEntrada("/Users/marcioviniciussantos/Documents/Projects/silhueta/exemplo_entrada.txt")
   }
 
 }
