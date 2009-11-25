@@ -1,3 +1,7 @@
+package silhueta
+
+import silhueta.Matriz
+
     case class Edificio(
         esq: Int,       // coordenada horizontal esquerda do edifício
         alt: Int,       // altura do edifício
@@ -25,12 +29,15 @@ class Silhueta {
 
 /* iterativo
  */
-def algoritmo1(edifs: List[Edificio]): List[ElemSilhueta] = {null}
+def algoritmo1(edifs: List[Edificio]): List[ElemSilhueta] = silhuetaComFoldLeft(edifs)
+
 
 
 /* recursivo
  */
-def algoritmo2(edifs: List[Edificio]): List[ElemSilhueta] = {null}
+def algoritmo2(edifs: List[Edificio]): List[ElemSilhueta] = {
+null	
+}
 
 
 /* divisao e conquista
@@ -40,7 +47,10 @@ def algoritmo3(edifs: List[Edificio]): List[ElemSilhueta] = {null}
 
 /* ???
  */
-def silhuetaComFoldLeft(edifs: List[Edificio]): List[ElemSilhueta] = {null} 
+def silhuetaComFoldLeft(edifs: List[Edificio]): List[ElemSilhueta] = {
+	edifs.foldLeft(List[ElemSilhueta]())((s1: List[ElemSilhueta], edif: Edificio) => uniao(s1, silhuetaDeEdificio(edif)))
+	
+} 
 
 
 /* ???
@@ -50,12 +60,19 @@ def silhuetaComFoldRight(edifs: List[Edificio]): List[ElemSilhueta] = {null}
 
 /* Recebe duas silhuetas s1 e s2, determina a união dessas silhuetas 
  */
-def uniao(s1: List[ElemSilhueta], s2: List[ElemSilhueta]): List[ElemSilhueta] = {null}
+def uniao(s1: List[ElemSilhueta], s2: List[ElemSilhueta]): List[ElemSilhueta] = (s1, s2) match {
+	case (Nil, Nil) => Nil
+	case (s, Nil) => s
+	case (Nil, s) => s
+	//TODO: dois predios podem ter a mesma coordenada x? case (h1 :: t1, h2 :: t2) if h1.x == h2.x => h1 :: uniao(t1, h2 :: t2)
+	case (h1 :: t1, h2 :: t2) if h1.x < h2.x => h1 :: uniao(t1, h2 :: t2)
+	case (s, h2 :: t2) => h2 :: uniao(s, t2)
+}
 
 
 /* Devolve a silhueta do edifício edif
  */
-def silhuetaDeEdificio(edif: Edificio): List[ElemSilhueta] = {null}
+def silhuetaDeEdificio(edif: Edificio): List[ElemSilhueta] = List(new ElemSilhueta(edif.esq, edif.alt), new ElemSilhueta(edif.dir, 0))
 
 
 /* Recebe uma silhueta s e a converte para uma imagem no formato PGM
