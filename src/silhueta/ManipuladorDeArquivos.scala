@@ -10,15 +10,14 @@ object ManipuladorDeArquivos {
     processaEdificio(list.tail)
   }
 
-  def processaEdificio(list: List[String]) : List[Edificio] ={
- 
-    if(list.size == 1){
-      val p = list.head.split(Array(' ','\n'))
-      return List(Edificio(p(0).toInt,p(1).toInt,p(2).toInt))
-    }
+  private def processaEdificio(list: List[String]) : List[Edificio] = processaEdificio(list, Nil)
 
-    val p = list.head.split(Array(' ','\n'))
-    return Edificio(p(0).toInt,p(1).toInt,p(2).toInt) :: processaEdificio(list.tail)
+  private def processaEdificio(list: List[String], acc: List[Edificio]) : List[Edificio] = (list, acc)  match {
+    case (Nil, acc) => acc
+    case (h :: t, acc) => {
+	    		val p = h.split(Array(' ','\n'))
+   	 		processaEdificio(t, Edificio(p(0).toInt,p(1).toInt,p(2).toInt) :: acc)
+    }
   }
 
   def escreveArquivoDeSilhueta(nomeDoArquivo: String, elemSilhuetas: List[ElemSilhueta]) = {
@@ -32,7 +31,8 @@ object ManipuladorDeArquivos {
     writer.close()
   }
 
-  def processaSilhueta(list: List[ElemSilhueta]) : List[String] ={
+  //TODO: this should be tail recursive (probably could be a map)
+  private def processaSilhueta(list: List[ElemSilhueta]) : List[String] ={
     if(list.size == 1){
       val p = list.head.x + " "+list.head.h+"\n"
       return List(p)

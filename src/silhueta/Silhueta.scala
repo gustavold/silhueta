@@ -1,7 +1,5 @@
 package silhueta
 
-import silhueta.Matriz
-
 case class Edificio(
   esq: Int,       // coordenada horizontal esquerda do edifício
   alt: Int,       // altura do edifício
@@ -15,7 +13,7 @@ case class ElemSilhueta(
   h: Int  // altura
 )
 
-class Silhueta {
+object Silhueta {
 
   val NLins = 600                     // número de linhas da imagem
   val NCols = 800                     // número de colunas da imagem
@@ -55,16 +53,27 @@ def silhuetaComFoldLeft(edifs: List[Edificio]): List[ElemSilhueta] = {
    */
   def silhuetaComFoldRight(edifs: List[Edificio]): List[ElemSilhueta] = {null}
 
+//def trace(s: String) = println(s)
+def trace(s: String) = Nil
 
 /* Recebe duas silhuetas s1 e s2, determina a união dessas silhuetas 
  */
-def uniao(s1: List[ElemSilhueta], s2: List[ElemSilhueta]): List[ElemSilhueta] = (s1, s2) match {
-	case (Nil, Nil) => Nil
-	case (s, Nil) => s
-	case (Nil, s) => s
+def uniao(s1: List[ElemSilhueta], s2: List[ElemSilhueta]): List[ElemSilhueta] =	uniao(s1, s2, Nil, 0)
+
+def uniao(s1: List[ElemSilhueta], s2: List[ElemSilhueta], uni: List[ElemSilhueta], hbaixo: Int): List[ElemSilhueta] = (s1, s2, uni, hbaixo) match {
+	case (Nil, Nil, u, _) => u.reverse
+	case (s, Nil, u, _) => u reverse_::: s
+	case (Nil, s, u, _) => u reverse_::: s
+	case (h1 :: t1, h2 :: t2, Nil, hb) if h1.x < h2.x => trace("init1 " + s1.toString + s2.toString); uniao( t1, h2 :: t2, h1 :: Nil, 0) 
+	case (h1 :: t1, h2 :: t2, Nil, hb) => trace("init2 " + s1.toString + s2.toString); uniao( t2, h1 :: t1, h2 :: Nil, 0) 
 	//TODO: dois predios podem ter a mesma coordenada x? case (h1 :: t1, h2 :: t2) if h1.x == h2.x => h1 :: uniao(t1, h2 :: t2)
-	case (h1 :: t1, h2 :: t2) if h1.x < h2.x => h1 :: uniao(t1, h2 :: t2)
-	case (s, h2 :: t2) => h2 :: uniao(s, t2)
+	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h2.x < h1.x && h2.h > hu.h => trace("1"); uniao(t2,  h1 :: t1, h2 :: hu :: tu, hu.h)
+	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h2.x < h1.x && h2.h <= hu.h => trace("2"); uniao(h1 :: t1, t2, hu :: tu, h2.h)
+	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h1.x < h2.x && h1.h >= hb => trace("3"); uniao(t1, h2 :: t2, h1 :: hu :: tu, hb)
+	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h1.x < h2.x && h1.h < hb => trace("4"); uniao(h2 :: t2, t1, ElemSilhueta(h1.x, hb) :: hu :: tu, h1.h)
+	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h1.x == h2.x && h1.h >= h2.h => trace("5"); uniao(t1, t2, h1 :: hu :: tu, h2.h)
+	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h1.x == h2.x && h1.h < h2.h => trace("6"); uniao(t2, t1, h2 :: hu :: tu, h1.h)
+	case (_, _, _, _) => println("nao deveria entrar aqui"); Nil
 }
 
 
