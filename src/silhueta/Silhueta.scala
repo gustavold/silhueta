@@ -27,14 +27,22 @@ object Silhueta {
 
 /* iterativo
  */
-def algoritmo1(edifs: List[Edificio]): List[ElemSilhueta] = silhuetaComFoldLeft(edifs)
-
+def algoritmo1(edifs: List[Edificio]): List[ElemSilhueta] = {
+	var s = silhuetaDeEdificio(edifs.head)
+	for (k <- 1 until edifs.length){
+		s = uniao(s, silhuetaDeEdificio(edifs(k)))
+	}
+	return s
+}
 
 
 /* recursivo
  */
-def algoritmo2(edifs: List[Edificio]): List[ElemSilhueta] = {
-null	
+def algoritmo2(edifs: List[Edificio]): List[ElemSilhueta] = algoritmo2(edifs, Nil)
+
+private def algoritmo2(edifs: List[Edificio], s: List[ElemSilhueta]): List[ElemSilhueta] = edifs match {
+	case Nil => s
+	case h :: t => algoritmo2(t, uniao(silhuetaDeEdificio(h), s))
 }
 
   /* divisao e conquista
@@ -47,14 +55,14 @@ null
   }
 
 
-/* ???
+/* foldLeft
  */
 def silhuetaComFoldLeft(edifs: List[Edificio]): List[ElemSilhueta] = {
 	edifs.foldLeft(List[ElemSilhueta]())((s1: List[ElemSilhueta], edif: Edificio) => uniao(s1, silhuetaDeEdificio(edif)))
 	
 } 
 
-  /* ???
+  /* foldRight
    */
   def silhuetaComFoldRight(edifs: List[Edificio]): List[ElemSilhueta] = {
 	edifs.foldRight(List[ElemSilhueta]())((edif: Edificio, s1: List[ElemSilhueta]) => uniao(s1, silhuetaDeEdificio(edif)))
