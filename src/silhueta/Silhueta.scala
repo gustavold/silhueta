@@ -39,7 +39,12 @@ null
 
   /* divisao e conquista
    */
-  def algoritmo3(edifs: List[Edificio]): List[ElemSilhueta] = {null}
+  def algoritmo3(edifs: List[Edificio]): List[ElemSilhueta] = edifs match {
+	  case edif :: Nil => silhuetaDeEdificio(edif)
+	  case edifs => { val (s1, s2) = edifs.splitAt(edifs.length/2)
+	  		  uniao(algoritmo3(s1), algoritmo3(s2))
+  			}
+  }
 
 
 /* ???
@@ -51,7 +56,9 @@ def silhuetaComFoldLeft(edifs: List[Edificio]): List[ElemSilhueta] = {
 
   /* ???
    */
-  def silhuetaComFoldRight(edifs: List[Edificio]): List[ElemSilhueta] = {null}
+  def silhuetaComFoldRight(edifs: List[Edificio]): List[ElemSilhueta] = {
+	edifs.foldRight(List[ElemSilhueta]())((edif: Edificio, s1: List[ElemSilhueta]) => uniao(s1, silhuetaDeEdificio(edif)))
+}
 
 //def trace(s: String) = println(s)
 def trace(s: String) = Nil
@@ -61,18 +68,22 @@ def trace(s: String) = Nil
 def uniao(s1: List[ElemSilhueta], s2: List[ElemSilhueta]): List[ElemSilhueta] =	uniao(s1, s2, Nil, 0)
 
 def uniao(s1: List[ElemSilhueta], s2: List[ElemSilhueta], uni: List[ElemSilhueta], hbaixo: Int): List[ElemSilhueta] = (s1, s2, uni, hbaixo) match {
+	// fim da recursao
 	case (Nil, Nil, u, _) => u.reverse
 	case (s, Nil, u, _) => u reverse_::: s
 	case (Nil, s, u, _) => u reverse_::: s
-	case (h1 :: t1, h2 :: t2, Nil, hb) if h1.x < h2.x => trace("init1 " + s1.toString + s2.toString); uniao( t1, h2 :: t2, h1 :: Nil, 0) 
-	case (h1 :: t1, h2 :: t2, Nil, hb) => trace("init2 " + s1.toString + s2.toString); uniao( t2, h1 :: t1, h2 :: Nil, 0) 
-	//TODO: dois predios podem ter a mesma coordenada x? case (h1 :: t1, h2 :: t2) if h1.x == h2.x => h1 :: uniao(t1, h2 :: t2)
-	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h2.x < h1.x && h2.h > hu.h => trace("1"); uniao(t2,  h1 :: t1, h2 :: hu :: tu, hu.h)
-	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h2.x < h1.x && h2.h <= hu.h => trace("2"); uniao(h1 :: t1, t2, hu :: tu, h2.h)
-	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h1.x < h2.x && h1.h >= hb => trace("3"); uniao(t1, h2 :: t2, h1 :: hu :: tu, hb)
-	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h1.x < h2.x && h1.h < hb => trace("4"); uniao(h2 :: t2, t1, ElemSilhueta(h1.x, hb) :: hu :: tu, h1.h)
-	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h1.x == h2.x && h1.h >= h2.h => trace("5"); uniao(t1, t2, h1 :: hu :: tu, h2.h)
-	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h1.x == h2.x && h1.h < h2.h => trace("6"); uniao(t2, t1, h2 :: hu :: tu, h1.h)
+	// inicio da recursao
+	case (h1 :: t1, h2 :: t2, Nil, hb) if h1.x < h2.x => uniao( t1, h2 :: t2, h1 :: Nil, 0)
+	case (h1 :: t1, h2 :: t2, Nil, hb) if h1.x > h2.x => uniao( t2, h1 :: t1, h2 :: Nil, 0)
+	case (h1 :: t1, h2 :: t2, Nil, hb) if h1.x == h2.x && h1.h >= h2.h => uniao(t1, t2, h1 :: Nil, h2.h)
+	case (h1 :: t1, h2 :: t2, Nil, hb) if h1.x == h2.x && h1.h < h2.h => uniao(t2, t1, h2 :: Nil, h1.h)
+	// durante a recursao
+	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h2.x < h1.x && h2.h > hu.h => uniao(t2,  h1 :: t1, h2 :: hu :: tu, hu.h)
+	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h2.x < h1.x && h2.h <= hu.h => uniao(h1 :: t1, t2, hu :: tu, h2.h)
+	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h1.x < h2.x && h1.h >= hb => uniao(t1, h2 :: t2, h1 :: hu :: tu, hb)
+	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h1.x < h2.x && h1.h < hb => uniao(h2 :: t2, t1, ElemSilhueta(h1.x, hb) :: hu :: tu, h1.h)
+	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h1.x == h2.x && h1.h >= h2.h => uniao(t1, t2, h1 :: hu :: tu, h2.h)
+	case (h1 :: t1, h2 :: t2, hu :: tu, hb) if h1.x == h2.x && h1.h < h2.h => uniao(t2, t1, h2 :: hu :: tu, h1.h)
 	case (_, _, _, _) => println("nao deveria entrar aqui"); Nil
 }
 

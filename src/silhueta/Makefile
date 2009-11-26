@@ -11,6 +11,7 @@ all:
 
 ryn: run
 
+
 run: all
 	$(JAVA) silhueta.Main
 

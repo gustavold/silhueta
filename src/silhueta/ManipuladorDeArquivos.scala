@@ -1,10 +1,20 @@
 package silhueta
 
 import scala.io.Source
-import java.io._
+import java.io.PrintWriter
+import java.io.File
 
 object ManipuladorDeArquivos {
   
+  def lerEntradaPadrao() : List[Edificio] = lerEntradaPadrao(Nil)
+
+  private def lerEntradaPadrao(acc: List[String]) : List[Edificio] = {
+    Console.readLine match {
+      case null => processaEdificio(acc)
+      case line => lerEntradaPadrao(line :: acc)
+    }
+  }
+
   def lerArquivoDeEntrada(nomeDoArquivo: String):List[Edificio] = {
     val list = Source.fromFile(nomeDoArquivo).getLines.toList
     processaEdificio(list.tail)
@@ -20,7 +30,12 @@ object ManipuladorDeArquivos {
     }
   }
 
-  def escreveArquivoDeSilhueta(nomeDoArquivo: String, elemSilhuetas: List[ElemSilhueta]) = {
+  def escreveSilhuetaParaConsole(elemSilhuetas: List[ElemSilhueta]) = {
+	  //TODO: implement me
+	throw new RuntimeException("Someone implement me pleeeaase!") 
+  }
+
+  def escreveSilhuetaParaArquivo(nomeDoArquivo: String, elemSilhuetas: List[ElemSilhueta]) = {
     val writer = new PrintWriter(new File(nomeDoArquivo))
     val silhuetas = processaSilhueta(elemSilhuetas)
 
