@@ -52,7 +52,6 @@ object Main {
 		case fileName => ManipuladorDeArquivos.geraImagem(s, fileName)
 	}
 
-	//TODO: criar arquivo pgm
   }  
 
 }

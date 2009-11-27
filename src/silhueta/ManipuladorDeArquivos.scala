@@ -6,6 +6,16 @@ import java.io.File
 
 object ManipuladorDeArquivos {
  
+  val NLins = 600                     // número de linhas da imagem
+  val NCols = 800                     // número de colunas da imagem
+  val BordaInf = NLins - 1            // borda inferior (última linha da imagem)
+  val MargemInf = 20                  // linhas do eixo base à borda inferior da imagem
+  val Base = BordaInf - MargemInf     // linha do eixo base
+  val Branco = 15                     // valor de maxval
+  val Cinza = 10                      // cor da silhueta preenchida
+  val Preto = 0                       // cor do eixo base
+
+
   def lerEntradaPadrao() : List[Edificio] = {
     Console.readLine //discard first line
     lerEntradaPadrao(Nil)
@@ -80,8 +90,8 @@ object ManipuladorDeArquivos {
     if(list.size == 1)
     return
     val proximo = list.head
-    println("0 <= l1:"+(Silhueta.Base - atual.h) + " <=l2:"+ (Silhueta.Base)+ ", 0 <=c1:"+ atual.x+ " <=c2:"+ proximo.x)
-    preencheRetangulo(matriz, Silhueta.Base - atual.h, Silhueta.Base, atual.x, proximo.x, Silhueta.Cinza)
+    println("0 <= l1:"+(Base - atual.h) + " <=l2:"+ (Base)+ ", 0 <=c1:"+ atual.x+ " <=c2:"+ proximo.x)
+    preencheRetangulo(matriz, Base - atual.h, Base, atual.x, proximo.x, Cinza)
     preencheMatriz(proximo, list.tail, matriz)
   }
 
@@ -89,10 +99,10 @@ object ManipuladorDeArquivos {
     val writer = new PrintWriter(new File(nomeArq))
 
     writer.write("P2\n")
-    writer.write("" + Silhueta.NCols + " " + Silhueta.NLins+"\n")
-    writer.write("" + Silhueta.Branco+"\n")
+    writer.write("" + NCols + " " + NLins+"\n")
+    writer.write("" + Branco+"\n")
 
-    var matriz = new Matriz[Int](Silhueta.NLins, Silhueta.NCols, Silhueta.Branco)
+    var matriz = new Matriz[Int](NLins, NCols, Branco)
 
     s.foreach{a=>
       println("h:"+a.h+"x:"+a.x)
@@ -100,13 +110,13 @@ object ManipuladorDeArquivos {
 
     preencheMatriz(s.head, s.tail, matriz)
 
-    for(x <- 0 to Silhueta.NCols-1){
-      matriz(Silhueta.Base, x) = Silhueta.Preto
+    for(x <- 0 to NCols-1){
+      matriz(Base, x) = Preto
     }
 
-    for(l <- 0 to Silhueta.NLins-1){
+    for(l <- 0 to NLins-1){
       var line = ""
-      for(c <- 0 to Silhueta.NCols-1){
+      for(c <- 0 to NCols-1){
         line = line + " " + matriz(l,c)
       }
       writer.write(line+"\n")
