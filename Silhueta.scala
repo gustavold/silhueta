@@ -1,4 +1,3 @@
-package silhueta
 
 case class Edificio(
   esq: Int,       // coordenada horizontal esquerda do edifício
@@ -13,7 +12,7 @@ case class ElemSilhueta(
   h: Int  // altura
 )
 
-object Silhueta {
+object AlgoritmosSilhueta {
 
 
 /* iterativo

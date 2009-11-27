@@ -1,1 +1,23 @@
-a
+Exercício-Programa 2: A Silhueta de um Conjunto de Edifícios
+ 
+Grupo: Gustavo Luis Duarte NUsp: 6650494
+Marcio Vinicius dos Santos NUsp: 5146346
+ 
+ 
+ESTRUTURA DO ARQUIVO
+
+O arquivo zipado contém as classes: 
+Main.scala => inicia programa e lê argumentos de entrada			
+ManipuladorDeArquivos.scala	=> lê arquivos de entrada e produz arquivos de saída, as funções geraImagem e preencheRetangulo encontram-se nesse arquivo
+Matriz.scala => implementação da Matriz genérica, com os métodos update e apply
+Silhueta.scala => contém os demais algoritmos obrigatórios
+Makefile		
+
+COMPILANDO O PROGRAMA
+
+Simplesmente usar o comando make genérico
+
+
+EXECUTANDO O PROGRAMA
+
+A execução do programa ocorre na mesma sintaxe exigida: scala Silhueta [alg] [arq-entrada] [arq-silhueta] [arq-imagem]

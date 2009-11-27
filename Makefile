@@ -16,7 +16,7 @@ run: all
 	$(JAVA) silhueta.Main
 
 clean:
-	rm -f silhueta/*.class
+	rm *.class
 
  
 

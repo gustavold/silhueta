@@ -1,4 +1,3 @@
-package silhueta
 
 import scala.io.Source
 import java.io.PrintWriter

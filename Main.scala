@@ -5,9 +5,7 @@
  * and open the template in the editor.
  */
 
-package silhueta
-
-object Main {
+object Silhueta {
 
 	def trace(s: String) = println(s)
 
@@ -34,11 +32,11 @@ object Main {
 	}
 
 	val s = alg match {
-		case "1" => Silhueta.algoritmo1(edifs)
-		case "2" => Silhueta.algoritmo2(edifs)
-		case "3" => Silhueta.algoritmo3(edifs)
-		case "L" => Silhueta.silhuetaComFoldLeft(edifs)
-		case "R" => Silhueta.silhuetaComFoldRight(edifs)
+		case "1" => AlgoritmosSilhueta.algoritmo1(edifs)
+		case "2" => AlgoritmosSilhueta.algoritmo2(edifs)
+		case "3" => AlgoritmosSilhueta.algoritmo3(edifs)
+		case "L" => AlgoritmosSilhueta.silhuetaComFoldLeft(edifs)
+		case "R" => AlgoritmosSilhueta.silhuetaComFoldRight(edifs)
 		case x => println("Algoritmo " + x + " desconhecido."); exit(1)
 	}
 	

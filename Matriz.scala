@@ -1,4 +1,3 @@
-package silhueta
 
 import java.util.ArrayList
 
