@@ -79,6 +79,7 @@ object ManipuladorDeArquivos {
   def preencheRetangulo(a: Matriz[Int],
                         lin1: Int, lin2: Int,
                         col1: Int, col2: Int, k: Int): Unit = {
+    if (lin1 > lin2 || col1 > col2) return
     for(l <- lin1 to lin2){
       for(c <- col1 to col2){
         a(l,c) = k
@@ -86,13 +87,13 @@ object ManipuladorDeArquivos {
     }
   }
 
-  def preencheMatriz(atual: ElemSilhueta, list: List[ElemSilhueta], matriz: Matriz[Int]): Unit = {
-    if(list.size == 1)
-    return
-    val proximo = list.head
-    println("0 <= l1:"+(Base - atual.h) + " <=l2:"+ (Base)+ ", 0 <=c1:"+ atual.x+ " <=c2:"+ proximo.x)
-    preencheRetangulo(matriz, Base - atual.h, Base, atual.x, proximo.x, Cinza)
-    preencheMatriz(proximo, list.tail, matriz)
+  def preencheMatriz(s: List[ElemSilhueta], matriz: Matriz[Int]): Unit = s match {
+	  case Nil => Nil
+	  case elm :: Nil => Nil
+	  case elm :: t => {
+		preencheRetangulo(matriz, Base - elm.h, Base - 1, elm.x, t.head.x-1, Cinza)
+    		preencheMatriz(t, matriz)
+	  }
   }
 
   def geraImagem(s: List[ElemSilhueta], nomeArq: String): Unit = {
@@ -104,11 +105,7 @@ object ManipuladorDeArquivos {
 
     var matriz = new Matriz[Int](NLins, NCols, Branco)
 
-    s.foreach{a=>
-      println("h:"+a.h+"x:"+a.x)
-    }
-
-    preencheMatriz(s.head, s.tail, matriz)
+    preencheMatriz(s, matriz)
 
     for(x <- 0 to NCols-1){
       matriz(Base, x) = Preto
@@ -116,9 +113,10 @@ object ManipuladorDeArquivos {
 
     for(l <- 0 to NLins-1){
       var line = ""
-      for(c <- 0 to NCols-1){
-        line = line + " " + matriz(l,c)
+      for(c <- 0 to NCols-2){
+        line = line + matriz(l,c) + " "
       }
+      line = line + matriz(l, NCols - 1)
       writer.write(line+"\n")
     }
 
