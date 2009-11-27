@@ -100,18 +100,7 @@ def uniao(s1: List[ElemSilhueta], s2: List[ElemSilhueta], uni: List[ElemSilhueta
  */
 def silhuetaDeEdificio(edif: Edificio): List[ElemSilhueta] = List(new ElemSilhueta(edif.esq, edif.alt), new ElemSilhueta(edif.dir, 0))
 
-  /* Recebe uma silhueta s e a converte para uma imagem no formato PGM
-   */
-  def geraImagem(s: List[ElemSilhueta], nomeArq: String): Unit = {null}
 
-
-  /* Recebe uma matriz a, dois índices de linha lin1 e lin2 tais que 0 ≤ lin1 ≤ lin2, dois índices de
-   * coluna col1 e col2 tais que 0 ≤ col1 ≤ col2, e um valor k. A função preencheRetangulo preenche
-   * com o valor k a submatriz retangular de a  delimitada por lin1, lin2, col1 e col2.
-   */
-  def preencheRetangulo(a: Matriz[Int],
-                        lin1: Int, lin2: Int,
-                        col1: Int, col2: Int, k: Int): Unit = {null}
 
 }
 

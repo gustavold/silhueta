@@ -47,6 +47,11 @@ object Main {
 		case fileName => ManipuladorDeArquivos.escreveSilhuetaParaArquivo(fileName, s)
 	}
 
+  arqImg match {
+		case "-"      => Nil 
+		case fileName => ManipuladorDeArquivos.geraImagem(s, fileName)
+	}
+
 	//TODO: criar arquivo pgm
   }  
 
