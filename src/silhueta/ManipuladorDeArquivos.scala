@@ -5,8 +5,11 @@ import java.io.PrintWriter
 import java.io.File
 
 object ManipuladorDeArquivos {
-  
-  def lerEntradaPadrao() : List[Edificio] = lerEntradaPadrao(Nil)
+ 
+  def lerEntradaPadrao() : List[Edificio] = {
+    Console.readLine //discard first line
+    lerEntradaPadrao(Nil)
+  }
 
   private def lerEntradaPadrao(acc: List[String]) : List[Edificio] = {
     Console.readLine match {
@@ -31,8 +34,9 @@ object ManipuladorDeArquivos {
   }
 
   def escreveSilhuetaParaConsole(elemSilhuetas: List[ElemSilhueta]) = {
-	  //TODO: implement me
-	throw new RuntimeException("Someone implement me pleeeaase!") 
+    val silhuetas = processaSilhueta(elemSilhuetas)
+    Console.println(silhuetas.length)
+    silhuetas.foreach(Console.print)
   }
 
   def escreveSilhuetaParaArquivo(nomeDoArquivo: String, elemSilhuetas: List[ElemSilhueta]) = {
